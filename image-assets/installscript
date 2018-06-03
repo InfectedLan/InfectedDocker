@@ -1,0 +1,45 @@
+#!/bin/bash
+echo ' /$$$$$$            /$$$$$$                      /$$                     /$$'
+echo '|_  $$_/           /$$__  $$                    | $$                    | $$'
+echo '  | $$   /$$$$$$$ | $$  \__//$$$$$$   /$$$$$$$ /$$$$$$    /$$$$$$   /$$$$$$$'
+echo '  | $$  | $$__  $$| $$$$   /$$__  $$ /$$_____/|_  $$_/   /$$__  $$ /$$__  $$'
+echo '  | $$  | $$  \ $$| $$_/  | $$$$$$$$| $$        | $$    | $$$$$$$$| $$  | $$'
+echo '  | $$  | $$  | $$| $$    | $$_____/| $$        | $$ /$$| $$_____/| $$  | $$'
+echo ' /$$$$$$| $$  | $$| $$    |  $$$$$$$|  $$$$$$$  |  $$$$/|  $$$$$$$|  $$$$$$$'
+echo '|______/|__/  |__/|__/     \_______/ \_______/   \___/   \_______/ \_______/'
+echo "Re-inventing the wheel since 2014"
+echo ''
+echo ''
+
+echo "Infected docker-side installscript"
+
+echo "Enabling features of the server"
+
+a2enmod ssl
+#apt-get install php-mysqlnd
+apt-get update && apt-get install -y libicu-dev
+
+docker-php-ext-install mbstring mysqli
+docker-php-ext-install intl
+
+apt-get install -y mysql-client && rm -rf /var/lib/apt
+
+echo "Creating directories"
+
+mkdir -p /srv/config
+mkdir -p /srv/misc
+
+echo "Generating configuration files"
+
+touch /srv/config/secret.php
+echo "<?php class Secret { const db_username = \"$DB_USERNAME\"; const db_password= \"$DB_PASSWORD\";  } ?>" > /srv/config/secret.php
+
+echo "Setting ownership of config directory"
+
+chown -R www-data:www-data /srv/config
+
+chmod 770 /srv/misc/boot
+chmod 770 /srv/misc/run-once
+chmod 770 /srv/misc/installDb
+
+echo "Build script is done!"

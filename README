@@ -1,0 +1,41 @@
+# Infected Docker
+
+## Requirements
+
+ * Docker
+ * Docker-compose
+ * Git
+
+## Install documentation
+
+ * Things happening before docker is initialized happens in `prepare`
+ * Things happening during docker image building is located in `image-assets/installScript`
+ * Things happening on each boot is located in `image-assets/boot`
+ * Things happening only on first startup is located in `image-assets/run-once`
+
+## Preparing
+
+Run `./prepare` in your favourite bash/sh interpreter. It will clone all required repositories, and place them in the parent folder.
+
+Add the following entries in your `/etc/hosts` file, or other if you have a shitty OS:
+
+```
+127.0.0.1	infected.dev
+127.0.0.1	crew.infected.dev
+127.0.0.1	tickets.infected.dev
+127.0.0.1	compo.infected.dev
+127.0.0.1	info.infected.dev
+
+```
+
+In order to use https, which is required by the webpage at the moment, you should follow something like [this](https://stackoverflow.com/questions/7580508/getting-chrome-to-accept-self-signed-localhost-certificate) in order to get the certificate trusted. You can also write `thisisunsafe` in the browser window, but please note that it is not reccomended by people on the internet.
+
+## Running
+
+`docker-compose up`, or `docker-compose up --build` to force a new build at the same time
+
+## Wishes for the future
+
+ * Decouple the websites, to their own seperate containers
+   - Maybe make a container for the database which automatically loads the `infected_no` database, which is common for all sites
+ * https proxy frontend

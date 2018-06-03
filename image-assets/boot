@@ -1,0 +1,34 @@
+#!/bin/bash
+
+if [ -f /srv/misc/run-once ]; then
+    /srv/misc/run-once
+    rm /srv/misc/run-once
+fi
+
+echo "Checking database exist"
+echo "DB username: ${DB_USERNAME}, password: ${DB_PASSWORD}"
+
+databases=("infected_no" "infected_no_compo" "infected_no_crew" "infected_no_info" "infected_no_main" "infected_no_tech" "infected_no_tickets")
+
+for var in "${databases[@]}"
+do
+	echo "Checking existence of ${DBPREFIX}${var}"
+	if ! mysql --host=mysql -u $DB_USERNAME -p$DB_PASSWORD -e "use ${DB_PREFIX}${var}"; then
+		echo 'Installing database'
+		/srv/misc/installDb /srv/infected/InfectedDeployment/test_${var}.sql "${DB_PREFIX}${var}" "${DB_PASSWORD}" "${DB_USERNAME}"
+	else
+		echo "Database exists"
+	fi
+
+done
+
+echo "start"
+# Stolen from https://github.com/docker-library/php/blob/cf5482724142c2c249c7f873b0f7f4910e502b63/7.2/stretch/apache/docker-php-entrypoint
+set -e
+
+# first arg is `-f` or `--some-option`
+if [ "${1#-}" != "$1" ]; then
+	set -- apache2-foreground "$@"
+fi
+
+exec "$@"

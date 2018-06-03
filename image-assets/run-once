@@ -1,0 +1,24 @@
+#!/bin/bash
+echo "Running first-execution script"
+
+echo "Preparing certificate"
+
+mkdir /srv/certs
+#openssl req -x509 -sha256 -nodes -days 3650 -newkey rsa:2048 -keyout /srv/certs/server.key -out /srv/certs/server.crt  -config /tmp/openssl.conf
+
+openssl req -x509 -out /srv/certs/server.crt -keyout /srv/certs/server.key \
+  -newkey rsa:2048 -nodes -sha256 \
+  -subj '/CN=localhost' -extensions EXT -config <( \
+   printf "[dn]\nCN=localhost\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:localhost\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
+
+echo "Certificates generated"
+
+echo "Setting up mysql permissions"
+
+query="use sys; GRANT ALL PRIVILEGES ON \`${DB_PREFIX}infected_no\\_%\` TO '${DB_USERNAME}'@'%' WITH GRANT OPTION"
+echo "Running query ${query}"
+mysql --host mysql -u root -p"${DB_PASSWORD}" -e "${query}" 
+#!bin/sh
+#SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
+
+mysql --host mysql -u root -p"${DB_PASSWORD}" -e "SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));" 

@@ -1,0 +1,32 @@
+#!/bin/bash
+
+echo ' /$$$$$$            /$$$$$$                      /$$                     /$$'
+echo '|_  $$_/           /$$__  $$                    | $$                    | $$'
+echo '  | $$   /$$$$$$$ | $$  \__//$$$$$$   /$$$$$$$ /$$$$$$    /$$$$$$   /$$$$$$$'
+echo '  | $$  | $$__  $$| $$$$   /$$__  $$ /$$_____/|_  $$_/   /$$__  $$ /$$__  $$'
+echo '  | $$  | $$  \ $$| $$_/  | $$$$$$$$| $$        | $$    | $$$$$$$$| $$  | $$'
+echo '  | $$  | $$  | $$| $$    | $$_____/| $$        | $$ /$$| $$_____/| $$  | $$'
+echo ' /$$$$$$| $$  | $$| $$    |  $$$$$$$|  $$$$$$$  |  $$$$/|  $$$$$$$|  $$$$$$$'
+echo '|______/|__/  |__/|__/     \_______/ \_______/   \___/   \_______/ \_______/'
+echo "Re-inventing the wheel since 2014"
+echo ''
+echo ''
+
+# Pulls the entire infected website + dependencies
+repositories=(InfectedAPI InfectedCrew InfectedMain InfectedTickets InfectedDeployment InfectedCompo)
+
+echo "## 1/2 Prepare repositories"
+
+for var in "${repositories[@]}"
+do
+	echo "${var}"
+	if [ ! -d "../"${var} ]; then
+		git clone --recursive git@github.com:InfectedLan/${var} ../${var}
+	else 
+		echo "Using detected folder for ${var}"
+	fi
+done
+
+echo "## 2/2 Build docker image"
+docker-compose build
+
