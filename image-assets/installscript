@@ -13,16 +13,48 @@ echo ''
 
 echo "Infected docker-side installscript"
 
-echo "Enabling features of the server"
+echo "Doing apt-related stuff"
+
+apt-get update
+
+apt-get install -y mysql-client
+apt-get install -y --no-install-recommends git zip
+apt-get install -y libicu-dev
+
+echo "Installing and enabling features of the server"
 
 a2enmod ssl
 #apt-get install php-mysqlnd
-apt-get update && apt-get install -y libicu-dev
 
 docker-php-ext-install mbstring mysqli
 docker-php-ext-install intl
 
-apt-get install -y mysql-client && rm -rf /var/lib/apt
+echo "Installing php stuff"
+
+#apt-get install libpng12-dev libfreetype6-dev libjpeg62-turbo-dev -qy
+apt-get install -yq \
+        libfreetype6-dev \
+        libmcrypt-dev \
+        libpng-dev \
+        libjpeg-dev \
+        libpng-dev
+
+docker-php-ext-configure gd \
+        --enable-gd-native-ttf \
+        --with-freetype-dir=/usr/include/freetype2 \
+        --with-png-dir=/usr/include \
+        --with-jpeg-dir=/usr/include
+
+docker-php-ext-install gd
+
+docker-php-ext-enable gd
+pecl install xdebug
+pecl install phpunit
+
+curl --silent --show-error https://getcomposer.org/installer | php
+
+# It fails
+php /var/www/html/composer.phar require --dev phpunit/phpunit ^6.2
 
 echo "Creating directories"
 
@@ -41,5 +73,9 @@ chown -R www-data:www-data /srv/config
 chmod 770 /srv/misc/boot
 chmod 770 /srv/misc/run-once
 chmod 770 /srv/misc/installDb
+
+echo "Cleaning up apt"
+
+rm -rf /var/lib/apt
 
 echo "Build script is done!"

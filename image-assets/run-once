@@ -20,5 +20,18 @@ echo "Running query ${query}"
 mysql --host mysql -u root -p"${DB_PASSWORD}" -e "${query}" 
 #!bin/sh
 #SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
-
+echo "Running SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));"
 mysql --host mysql -u root -p"${DB_PASSWORD}" -e "SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));" 
+
+echo "Creating content folders"
+
+mkdir -p /srv/infected/dynamic/avatars/temp
+mkdir -p /srv/infected/dynamic/avatars/thumbnail
+mkdir -p /srv/infected/dynamic/avatars/hd
+mkdir -p /srv/infected/dynamic/avatars/sd
+mkdir -p /srv/infected/dynamic/cards
+mkdir -p /srv/infected/dynamic/castingAssets
+mkdir -p /srv/infected/dynamic/qrcache
+mkdir -p /srv/infected/dynamic/seatmapBackground
+
+chown -R www-data:www-data /srv/infected/dynamic
