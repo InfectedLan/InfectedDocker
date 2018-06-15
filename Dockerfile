@@ -13,6 +13,8 @@ COPY image-assets/boot /srv/misc/boot
 COPY image-assets/installDb /srv/misc/installDb
 COPY image-assets/run-once /srv/misc/run-once
 
+COPY image-assets/uploadconfig.ini /usr/local/etc/php/conf.d/uploadconfig.ini
+
 #ENV DEV_ENVIRONMENT=docker
 #ENV PHP_FPM_CLEAR_ENV=yes
 

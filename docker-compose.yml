@@ -18,6 +18,7 @@ services:
       - ../InfectedInfo:/srv/infected/InfectedInfo
       - ../InfectedCompo:/srv/infected/InfectedCompo
       - ../InfectedTickets:/srv/infected/InfectedTickets
+      - ./dynamic:/srv/infected/dynamic
     image: infected-docker-dev
     links:
       - mysql
