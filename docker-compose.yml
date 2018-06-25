@@ -24,7 +24,7 @@ services:
       - mysql
     environment:
       DB_HOST: mysql
-      DEV_ENVIRONMENT: docker
+      ENVIRONMENT: docker
       PHP_FPM_CLEAR_ENV: "yes"
       DB_PREFIX: test_
       DB_USERNAME: app

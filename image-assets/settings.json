@@ -1,0 +1,46 @@
+{
+	/* 
+	
+	INFECTED DEVELOPMENT CONFIGURATION
+	Location: /srv/config/settings.json
+
+	Note: This configuration file does NOT represent the production configuration, and can in fact be found on github.
+
+	*/
+	"name": "Infected(Development)",
+	"description": "Infected er et av Akershus største datatreff (LAN-party), og holder til i kulturhuset i Asker kommune.",
+
+	/* Configuration */
+	"domain" : "infected.dev",
+
+	/* Email information. */
+	"enableEmail" : true,
+	"emailName" : "Infected(Development)",
+	"email" : "no-reply@infected.dev",
+
+	/* Full path to the API location. */
+	"api_path" : "/srv/infected/InfectedAPI/",
+	"config_dir" : "/srv/config/",
+	"dynamic_path" : "/srv/infected/dynamic/",
+
+	/* Permissions file. */
+	"file_json_permissions" : "/srv/infected/InfectedAPI/json/permissions.json",
+	"file_json_postalcodes" : "/srv/infected/InfectedAPI/json/postalcodes.json",
+
+	/* Tells where images should be stored. */
+	"qr_path" : "../api/content/dynamic/qrcache/",
+	"avatar_path" : "../api/content/dynamic/avatars/",
+	/* Path to avatars on drive */
+	"dynamic_relative_avatar_path" : "avatars/",
+
+	/* Database */
+	"db_host" : "mysql",
+	
+	"db_name_infected" : "test_infected_no",
+	"db_name_infected_compo" : "test_infected_no_compo",
+	"db_name_infected_crew" : "test_infected_no_crew",
+	"db_name_infected_info" : "test_infected_no_info",
+	"db_name_infected_main" : "test_infected_no_main",
+	"db_name_infected_tech" : "test_infected_no_tech",
+	"db_name_infected_tickets" : "test_infected_no_tickets"
+}

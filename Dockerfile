@@ -12,6 +12,8 @@ COPY image-assets/installscript /tmp/installscript
 COPY image-assets/boot /srv/misc/boot
 COPY image-assets/installDb /srv/misc/installDb
 COPY image-assets/run-once /srv/misc/run-once
+COPY image-assets/wait-for-it.sh /srv/misc/wait-for-it.sh
+COPY image-assets/settings.json /srv/config/settings.json
 
 COPY image-assets/uploadconfig.ini /usr/local/etc/php/conf.d/uploadconfig.ini
 

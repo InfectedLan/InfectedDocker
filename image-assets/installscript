@@ -73,6 +73,7 @@ chown -R www-data:www-data /srv/config
 chmod 770 /srv/misc/boot
 chmod 770 /srv/misc/run-once
 chmod 770 /srv/misc/installDb
+chmod 770 /srv/misc/wait-for-it.sh
 
 echo "Cleaning up apt"
 
